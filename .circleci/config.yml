@@ -30,16 +30,21 @@ jobs:
           command: echo "Deploy Complete"
 workflows:
   version: 2
-  lint-and-test:
+  lint-test:
     jobs:
       - lint
       - test
-  build-test-and-deploy:
+  lint-test-deploy:
     jobs:
       - lint
       - test:
           requires:
             - lint
+      - approve:
+          type: approval
+          requires:
+            - lint
+            - test
       - deploy:
           requires:
-            - test
+            - approve
