@@ -8,7 +8,6 @@ jobs:
     steps:
       - checkout
       - run:
-          #Add command name and bash commands to execute
           name: Lint
           command: npm ci && npm run lint
   test:
@@ -18,13 +17,29 @@ jobs:
     steps:
       - checkout
       - run:
-          #Add command name and bash commands to execute
           name: Run
           command: npm ci && npm run test
-
+  deploy:
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run:
+          name: Run
+          command: echo "Deploy Complete"
 workflows:
   version: 2
-  lint_and_test:
+  lint-and-test:
     jobs:
       - lint
       - test
+  build-test-and-deploy:
+    jobs:
+      - lint
+      - test:
+          requires:
+            - lint
+      - deploy:
+          requires:
+            - test
