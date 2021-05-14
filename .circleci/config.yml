@@ -10,7 +10,7 @@ jobs:
       - run:
           #Add command name and bash commands to execute
           name: Lint
-          command: npm run lint
+          command: npm ci && npm run lint
   test:
     working_directory: ~/project
     docker:
@@ -20,7 +20,7 @@ jobs:
       - run:
           #Add command name and bash commands to execute
           name: Run
-          command: npm run test
+          command: npm ci && npm run test
 
 workflows:
   version: 2
