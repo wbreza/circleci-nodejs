@@ -1,13 +1,30 @@
-version: 2  
+version: 2
 
 jobs:
-  build:
-    working_directory: ~/project
+  lint:
+    working_directory: ~/
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:12
     steps:
       - checkout
       - run:
           #Add command name and bash commands to execute
-          name: Enter command description
-          command: echo "Add command here"
+          name: Lint
+          command: npm run lint
+  test:
+    working_directory: ~/
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run:
+          #Add command name and bash commands to execute
+          name: Run
+          command: npm run test
+
+workflows:
+  version: 2
+  lint_and_test:
+    jobs:
+      - build
+      - test
